@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+<form action="/Home/CategoryChosen" method="get">
+
+    <fieldset>
+        Ana Sayfa <select id="AnaSayfa" name="AnaSayfa">
+            <option selected="selected" value="0">İletişim</option>
+
+
+        </select>
+
+        <p><input type="submit" value="Submit" /> </p>
+
+    </fieldset>
+
+</form>
+@*<h1>Ana Sayfa</h1>*@
+<br />
+<button type="button" id="btngetlist" class="btn btn-outline-primary">İletişim</button>
+<br /><br />
+<div id="personlist"
+     
+</div>
+@section scripts{ 
+    <script>
+        $("#btngetlist").click(function () {
+            $.ajax({
+                contentType: "application/json",
+                dataType: "json",
+                type: "Get",
+                url: "/Person/Info/",
+                success: function (func) {
+                    let w = jQuery.parseJSON(func);
+                    console.log(w);
+                    let tablehtml = "<table class=table table-bordered> <tr><th> Adı</th><th> Soyadı</th><th> Tarih</th><th> Yaş</th><th> Yaşadığı Şehir</th></tr>";
+                    $.each(w, (index, value) => {
+                        tablehtml += `<tr><td>${value.Ad}</td> <td>${value.Soyad}</td> <td>${value.Tarih}</td> <td>${value.Yas}</td><td>${value.YasadigiSehir}</td></tr>`
+                    });
+                    tablehtml += "</table>";
+                    $("#personlist").html(tablehtml);
+                }
+            });
+        });
+    </script>
+
+}
+

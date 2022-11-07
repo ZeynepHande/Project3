@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewData["Title"] = "Iletisim";
+}
+<form action="/Home/CategoryChosen" method="get">
+
+    <fieldset>
+        Seç<select id="Seç" name="Seç">
+            <option  value="0">İletişim</option>
+        </select>
+
+    </fieldset>
+
+</form>
+
+<div id="personlist"
+
+</div>
+
+@section scripts{
+    <script>
+        $("#Seç").click(function () {
+            $.ajax({
+                contentType: "application/json",
+                dataType: "json",
+                type: "Get",
+                url: "/Person/Info/",
+                success: function (func) {
+                    let w = jQuery.parseJSON(func);
+                    console.log(w);
+                    let tablehtml = "<table class=table table-bordered> <tr><th> Adı</th><th> Soyadı</th><th> Tarih</th><th> Yaş</th><th> Yaşadığı Şehir</th></tr>";
+                    $.each(w, (index, value) => {
+                        tablehtml += `<tr><td>${value.Ad}</td> <td>${value.Soyad}</td> <td>${value.Tarih}</td> <td>${value.Yas}</td><td>${value.YasadigiSehir}</td></tr>`
+                    });
+                    tablehtml += "</table>";
+                    $("#personlist").html(tablehtml);
+                }
+            });
+        });
+    </script>
+
+}
+
+
